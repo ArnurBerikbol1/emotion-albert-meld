@@ -1,5 +1,5 @@
 
-import streamlit as st
+import gradio as gr
 import torch
 from transformers import AlbertTokenizer, AlbertForSequenceClassification
 
@@ -19,11 +19,10 @@ id2label = {
     6: "surprise"
 }
 
-st.title("Emotion Detection (MELD + ALBERT)")
+def predict(text):
+    if not text:
+        return "Please enter text"
 
-text = st.text_area("Enter text")
-
-if st.button("Predict"):
     inputs = tokenizer(text, return_tensors="pt", truncation=True)
 
     with torch.no_grad():
@@ -32,4 +31,13 @@ if st.button("Predict"):
 
     pred = torch.argmax(probs).item()
 
-    st.write("Prediction:", id2label[pred])
+    return id2label[pred]
+
+demo = gr.Interface(
+    fn=predict,
+    inputs=gr.Textbox(lines=3, placeholder="Enter text here..."),
+    outputs="text",
+    title="Emotion Detection (MELD + ALBERT)"
+)
+
+demo.launch()

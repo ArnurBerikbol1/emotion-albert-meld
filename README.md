@@ -8,7 +8,7 @@ Transformer-based emotion classification from conversational text.
 - ALBERT fine-tuned
 
 ## Demo
-Streamlit app deployed on Hugging Face Spaces.
+Gradio web app deployed on Hugging Face Spaces..
 
 ## How to run locally
 streamlit run app.py
